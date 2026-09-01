@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% set services = [
+    ['Steam', 'steam.png'], ['Telegram', 'telegram.png'], ['Roblox', 'roblox.png'],
+    ['Brawl Stars', 'brawl-stars.png'], ['PUBG Mobile', 'pubg-mobile.png'], ['App Store', 'app-store.png'],
+    ['ChatGPT', 'chatgpt.png'], ['PlayStation', 'playstation.png'], ['TikTok', 'tiktok.png'],
+    ['Mobile Legends', 'mobile-legends.png']
+] %}
+<header class="site-header">
+    <div class="shell header-inner">
+        <a class="logo" href="/" aria-label="DGS, на главную">DGS</a>
+        <button class="catalog-button" type="button" data-catalog-toggle aria-expanded="false" aria-controls="catalog-menu">
+            <img src="{{ asset('images/ui/catalog.svg') }}" alt="" width="20" height="20"> Каталог
+        </button>
+        <label class="search">
+            <img src="{{ asset('images/ui/search.svg') }}" alt="" width="20" height="20">
+            <input id="product-search" name="search" type="search" autocomplete="off" placeholder="Поиск по товарам" data-search aria-label="Поиск по товарам">
+            <kbd>⌘ K</kbd>
+        </label>
+        <a class="profile-button" href="#order-modal" aria-label="Профиль">●</a>
+    </div>
+</header>
+
+<div class="catalog-popover" id="catalog-menu" data-catalog hidden>
+    <div class="catalog-layout">
+        <nav class="catalog-sidebar" aria-label="Разделы каталога">
+            <button class="active" data-category="Игры и игровые сервисы" data-filter=""><span>Игры и игровые сервисы</span><b>›</b></button>
+            <button data-category="Игровые ценности" data-filter="robux"><span>Игровые ценности</span><b>›</b></button>
+            <button data-category="Мобильные игры" data-filter="mobile"><span>Мобильные игры</span><b>›</b></button>
+            <button data-category="Сервисы и соцсети" data-filter="premium"><span>Сервисы и соцсети</span><b>›</b></button>
+            <button data-category="Программы" data-filter="subscription"><span>Программы</span><b>›</b></button>
+        </nav>
+        <div class="catalog-main">
+            <div class="catalog-filter-group"><h3>Steam <span>›</span></h3><a href="#popular" data-catalog-filter="ключ">Игры и DLC</a><a href="#popular" data-catalog-filter="steam">Пополнение баланса</a><a href="#popular" data-catalog-filter="gift">Подарочные карты</a><a href="#popular" data-catalog-filter="">Коллекционные карточки</a><a href="#popular" data-catalog-filter="">Смена региона</a></div>
+            <div class="catalog-filter-group"><h3>PlayStation <span>›</span></h3><a href="#popular" data-catalog-filter="ключ">Игры и DLC</a><a href="#popular" data-catalog-filter="playstation">Пополнение баланса</a><a href="#popular" data-catalog-filter="playstation">Подарочные карты</a><a href="#popular" data-catalog-filter="">Новые аккаунты</a><a href="#popular" data-catalog-filter="subscription">PS Plus</a><a href="#popular" data-catalog-filter="subscription">EA Play</a></div>
+            <div class="catalog-filter-group"><h3>Xbox <span>›</span></h3><a href="#popular" data-catalog-filter="ключ">Игры и DLC</a><a href="#popular" data-catalog-filter="xbox">Пополнение баланса</a><a href="#popular" data-catalog-filter="xbox">Новые аккаунты</a><a href="#popular" data-catalog-filter="subscription">Xbox Game Pass</a><a href="#popular" data-catalog-filter="xbox">Услуги</a></div>
+            <div class="catalog-filter-group"><h3>Nintendo <span>›</span></h3><a href="#popular" data-catalog-filter="ключ">Игры и DLC</a><a href="#popular" data-catalog-filter="gift">Подарочные карты</a><a href="#popular" data-catalog-filter="">Новые аккаунты</a><a href="#popular" data-catalog-filter="subscription">NS Online</a></div>
+            <div class="catalog-filter-group"><h3>Battle.net <span>›</span></h3><a href="#popular" data-catalog-filter="ключ">World of Warcraft</a><a href="#popular" data-catalog-filter="gift">Подарочные карты</a><a href="#popular" data-catalog-filter="topup">Прямое пополнение</a><a href="#popular" data-catalog-filter="">Новые аккаунты</a><a href="#popular" data-catalog-filter="">Смена региона</a></div>
+            <div class="catalog-filter-group catalog-collections"><h3>Подборки <span>›</span></h3><a href="#popular" data-catalog-filter="">Скидки 90%</a><a href="#popular" data-catalog-filter="premium">Популярные подписки</a><a href="#popular" data-catalog-filter="ключ">Лучшие серии игр</a><a href="#popular" data-catalog-filter="steam">Steam Deck</a><a href="#popular" data-catalog-filter="gift">Bundle-наборы</a></div>
+        </div>
+    </div>
+</div>
+
+<main class="shell page">
+    <section class="hero" data-carousel aria-label="Спецпредложения">
+        <div class="hero-slide active" data-slide style="--accent:#ff593f;--accent2:#ffb23e"><div><span class="eyebrow">ПОПОЛНЕНИЕ БАЛАНСА</span><h1>Steam без комиссии</h1><p>Пополняйте кошелёк быстро и безопасно</p><a href="#topup">Пополнить</a></div><img src="{{ asset('images/services/steam.png') }}" alt="Steam" width="196" height="196"></div>
+        <div class="hero-slide" data-slide aria-hidden="true" style="--accent:#6a61ff;--accent2:#d963ff"><div><span class="eyebrow">ИГРАЙТЕ СЕЙЧАС</span><h1>Ключи любимых игр</h1><p>Моментальная выдача после оплаты</p><a href="#popular">В каталог</a></div><img src="{{ asset('images/services/playstation.png') }}" alt="PlayStation" width="196" height="196"></div>
+        <div class="hero-slide" data-slide aria-hidden="true" style="--accent:#16bcec;--accent2:#3988ff"><div><span class="eyebrow">ЦИФРОВЫЕ СЕРВИСЫ</span><h1>Всё в одном месте</h1><p>Подписки и подарочные карты</p><a href="#services">Выбрать</a></div><img src="{{ asset('images/services/telegram.png') }}" alt="Telegram" width="196" height="196"></div>
+        <button class="carousel-arrow prev" type="button" data-carousel-prev aria-label="Предыдущий баннер">‹</button><button class="carousel-arrow next" type="button" data-carousel-next aria-label="Следующий баннер">›</button>
+        <div class="carousel-dots" aria-label="Выбор баннера"><button class="active" data-dot="0" aria-label="Баннер 1"></button><button data-dot="1" aria-label="Баннер 2"></button><button data-dot="2" aria-label="Баннер 3"></button></div>
+    </section>
+
+    <section class="services-card" id="services">
+        <div class="service-list" aria-label="Популярные сервисы">
+            {% for item in services %}<a class="service" href="#popular"><span><img src="{{ asset('images/services/' ~ item[1]) }}" alt="" width="72" height="72"></span><small>{{ item[0] }}</small></a>{% endfor %}
+            <a class="service more" href="#popular"><span>•••</span><small>Ещё</small></a>
+        </div>
+        <form class="topup" id="topup" data-topup-form>
+            <div class="topup-brand">
+                <img src="{{ asset('images/services/steam.png') }}" alt="" width="40" height="40">
+                <span><strong>Пополнение Steam</strong><small>От 100 до 15 000 ₽</small></span>
+            </div>
+            <label><span>Логин Steam</span><input name="login" autocomplete="username" placeholder="Введите логин"></label>
+            <label>
+                <span>Сумма</span>
+                <span class="amount-input">
+                    <input name="amount" inputmode="numeric" value="500" min="100" max="15000" required>
+                    <fieldset class="currency-selector" aria-label="Валюта отображения">
+                        <legend class="sr-only">Валюта отображения</legend>
+                        {% for currency in ['$', '₸', '₽'] %}
+                            <button type="button" data-currency-option aria-pressed="{{ currency == '₽' ? 'true' : 'false' }}" class="{{ currency == '₽' ? 'active' : '' }}">{{ currency }}</button>
+                        {% endfor %}
+                    </fieldset>
+                </span>
+            </label>
+            <button type="submit">Пополнить</button>
+        </form>
+    </section>
+
+    <div class="catalog-filter-state" data-filter-state hidden>
+        <span>Фильтр каталога: <strong data-filter-label></strong></span>
+        <button type="button" data-filter-reset>Сбросить ×</button>
+    </div>
+
+    {% set headings = ['Популярные товары', 'Рекомендуем', 'Другие товары'] %}
+    {% for heading in headings %}
+        <section class="products-section" id="{{ loop.first ? 'popular' : '' }}">
+            <div class="section-heading"><h2>{{ heading }}</h2><a href="#popular">Смотреть все <span>›</span></a></div>
+            <div class="product-grid">
+                {% set selected = products|slice(loop.index0 * 4, 5) %}
+                {% if selected is empty %}{% set selected = products|slice(0, 5) %}{% endif %}
+                {% for product in selected %}
+                    <article class="product-card" data-product data-name="{{ product.name|lower }} {{ product.type.value|lower }} {{ product.sku|lower }}">
+                        <button class="favorite" type="button" aria-label="Добавить в избранное"><img src="{{ asset('images/ui/favorite.svg') }}" alt="" width="20" height="20"></button>
+                        <div class="product-image"><img src="{{ asset('images/' ~ product.imagePath) }}" alt="" width="216" height="136"></div>
+                        <div class="product-copy"><small>Цифровой товар</small><h3>{{ product.name }}</h3><div class="price"><strong data-rub="{{ product.priceMinor }}">{{ (product.priceMinor / 100)|number_format(0, ',', ' ') }} ₽</strong><del>{{ (product.priceMinor / 50)|number_format(0, ',', ' ') }} ₽</del></div></div>
+                        <button class="buy-button" type="button" data-buy data-sku="{{ product.sku }}" data-name="{{ product.name }}">Купить</button>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+    <section class="trust"><div><strong>Моментально</strong><span>Ключ сразу после оплаты</span></div><div><strong>Безопасно</strong><span>Защищённая оплата</span></div><div><strong>Поддержка</strong><span>Поможем с заказом</span></div></section>
+</main>
+
+<footer><div class="shell"><strong>DGS</strong><span>Цифровые товары с моментальной доставкой</span><a href="/admin">Администратору</a></div></footer>
+
+<dialog class="order-modal" id="order-modal" data-order-modal>
+    <button class="modal-close" type="button" data-modal-close aria-label="Закрыть">×</button>
+    <div data-order-form-view><span class="modal-label">ОФОРМЛЕНИЕ ЗАКАЗА</span><h2 data-order-title>Цифровой товар</h2><label for="promo-code">Промокод <input id="promo-code" name="promo_code" type="text" autocomplete="off" data-promo placeholder="WELCOME10"></label><p class="modal-note">Цена и лимит промокода проверяются сервером. Код будет показан только после подтверждения оплаты.</p><button class="modal-pay" type="button" data-create-order>Создать и оплатить</button></div>
+    <div class="order-result" data-order-result hidden></div>
+</dialog>
+{% endblock %}

@@ -1,0 +1,69 @@
+name: dgs
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: postgresql://dgs:dgs@database:5432/dgs?serverVersion=17&charset=utf8
+      MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-dev-admin-token}
+      SERVER_NAME: :80
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ./:/app
+      - composer_cache:/tmp/composer-cache
+    depends_on:
+      database:
+        condition: service_healthy
+    command: ["/app/docker/entrypoint.sh", "frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  worker:
+    build:
+      context: .
+      target: dev
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: postgresql://dgs:dgs@database:5432/dgs?serverVersion=17&charset=utf8
+      MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-dev-admin-token}
+    volumes:
+      - ./:/app
+      - composer_cache:/tmp/composer-cache
+    depends_on:
+      database:
+        condition: service_healthy
+      app:
+        condition: service_healthy
+    command: ["/app/docker/entrypoint.sh", "php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=128M", "-vv"]
+    restart: unless-stopped
+    healthcheck:
+      disable: true
+
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: dgs
+      POSTGRES_USER: dgs
+      POSTGRES_PASSWORD: dgs
+    ports:
+      - "${POSTGRES_PORT:-54321}:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dgs -d dgs"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  database_data:
+  composer_cache:

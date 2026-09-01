@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}Восстановление заказов — DGS{% endblock %}
+{% block body %}
+<main class="admin-page shell">
+    <div class="admin-head"><a class="logo" href="/">DGS</a><h1>Заказы для восстановления</h1></div>
+    <p>API администратора требует заголовок <code>X-Admin-Token</code>. Повторная доставка идемпотентна.</p>
+    <div class="admin-list">
+    {% for order in orders %}<article><div><strong>{{ order.productName }}</strong><small>{{ order.id }}</small></div><span class="status {{ order.status }}">{{ order.status }}</span><code>{{ order.lastError|default('нет ключей у поставщиков') }}</code></article>{% else %}<div class="empty">Проблемных заказов нет</div>{% endfor %}
+    </div>
+</main>
+{% endblock %}

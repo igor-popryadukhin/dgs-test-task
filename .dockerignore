@@ -1,0 +1,6 @@
+.git
+.idea
+var
+vendor
+public/assets
+.env.local

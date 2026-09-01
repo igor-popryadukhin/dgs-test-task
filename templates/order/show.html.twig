@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block title %}Заказ {{ order.id }} — DGS{% endblock %}
+{% block body %}
+<main class="status-page shell">
+    <a class="logo" href="/">DGS</a>
+    <section><span>ЗАКАЗ</span><h1>{{ order.productName }}</h1><p>Статус: <strong>{{ order.status }}</strong></p><p>Сумма: {{ order.amount }} {{ order.currency }}</p>{% if order.issuedCode %}<div class="issued-code"><small>Код активации</small><code>{{ order.issuedCode }}</code></div>{% endif %}<a href="/">Вернуться в магазин</a></section>
+</main>
+{% endblock %}
